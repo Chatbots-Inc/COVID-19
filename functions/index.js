@@ -2,7 +2,7 @@
 const DialogflowApp = require('actions-on-google').DialogflowApp,
 functions = require('firebase-functions');
 
-exports.dialectBot = functions.https.onRequest((request, response) => {
+exports.covidBotTam = functions.https.onRequest((request, response) => {
     console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
     if (request.body.queryResult) {
         processV2Request(request, response);
