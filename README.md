@@ -6,7 +6,7 @@ Este chatbot esté encargado de resolver preguntas sobre la enfermedad COVID-19.
 
 - Dialogflow (![Consola](https://dialogflow.cloud.google.com/),
 -[documentación](https://cloud.google.com/dialogflow/docs/))
-- Google Sheets (![Editable](https://docs.google.com/spreadsheets/d/19EMlDcnfZOpxq-L1UoRBcA4F-JoQZl58LEjTUExlJzo/edit?usp=sharing))
+- Google Sheets (https://docs.google.com/spreadsheets/d/19EMlDcnfZOpxq-L1UoRBcA4F-JoQZl58LEjTUExlJzo/edit?usp=sharing)
 
 ## Manual de uso (Dialogflow Fullfillment)
 
