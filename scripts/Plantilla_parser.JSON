@@ -1,0 +1,48 @@
+{
+  "name": string,
+  "displayName": string,
+  "webhookState": enum (WebhookState),
+  "priority": integer,
+  "isFallback": boolean,
+  "mlEnabled": boolean,
+  "mlDisabled": boolean,
+  "endInteraction": boolean,
+  "inputContextNames": [
+    string
+  ],
+  "events": [
+    string
+  ],
+  "trainingPhrases": [
+    {
+      object (TrainingPhrase)
+    }
+  ],
+  "action": string,
+  "outputContexts": [
+    {
+      object (Context)
+    }
+  ],
+  "resetContexts": boolean,
+  "parameters": [
+    {
+      object (Parameter)
+    }
+  ],
+  "messages": [
+    {
+      object (Message)
+    }
+  ],
+  "defaultResponsePlatforms": [
+    enum (Platform)
+  ],
+  "rootFollowupIntentName": string,
+  "parentFollowupIntentName": string,
+  "followupIntentInfo": [
+    {
+      object (FollowupIntentInfo)
+    }
+  ]
+}
