@@ -66,7 +66,8 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
   var c = JSON.stringify(request.body.queryResult.queryText);			            // Para obtener la solicitud del usuario
   var d = JSON.stringify(request.body.queryResult.intentDetectionConfidence);	// Para obtener el parámetro de confianza
   var e = JSON.stringify(request.body.session);   // Id de la sesion
-
+  var f = Date();                             // Tiempo
+    
   // Limpiamos la primera parte de los datos.
   a = a.substring(1);
   b = b.substring(1);
@@ -78,6 +79,9 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
   b = b.slice(0,-1);
   c = c.slice(0,-1);
   e = e.slice(0,-1);
+    
+  // Convertimos el tiempo en DD/MM/YYYY
+  f = f.toString();
 
   return admin.database().ref("analytics_ref").push({
     IntentName: b,
