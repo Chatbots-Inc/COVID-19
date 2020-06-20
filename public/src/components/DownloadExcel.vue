@@ -3,7 +3,7 @@
         :data   = users
         :fields = "json_fields"
         worksheet = "My Worksheet"
-        name    = "filename.xls">
+        name    = "queries_meddy.xls">
         <b-button variant="success">Descargar Excel</b-button>
     </download-excel>
 </template>
@@ -16,6 +16,8 @@ export default {
     return {
       users: [],
       json_fields: {
+	'SessionId': 'SessionId',
+	'Date': 'Date',
         'TextQuery': 'TextQuery',
         'IntentName': 'IntentName',
         'Confidence': 'Confidence',
@@ -24,7 +26,7 @@ export default {
     };
   },
   firebase: {
-    users: usersRef,
+    users: usersRef.orderByChild('SessionId'),
   },
 };
 </script>
