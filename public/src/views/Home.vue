@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <b-button variant="outline-danger" @click="logout">Logout</b-button>
-    <DownloadExcel class="download-excel"/>
+    <DownloadExcel class="download-sorted-excel" sortBy="sessionId" sortName="sesión"/>
+    <DownloadExcel class="download-sorted-excel" sortBy="" sortName="fecha"/>
     <UsersTable class="users-table"/>
   </div>
 
