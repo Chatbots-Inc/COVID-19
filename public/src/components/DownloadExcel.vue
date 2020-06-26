@@ -21,6 +21,7 @@ export default {
       json_fields: {
 	'SessionId': 'SessionId',
 	'Date': 'Date',
+	'Index': 'index',
         'TextQuery': 'TextQuery',
         'IntentName': 'IntentName',
         'Confidence': 'Confidence',
@@ -29,13 +30,34 @@ export default {
     };
   },
   firebase() {
+    // ordenar por sesion
+    var users = usersRef.orderByChild('SessionId');
+    // obtener la lista de queries
+    users.once('value', function(snapshot) {
+      // contador para el indice
+      var i = 1;
+      // variable para comparar sesion
+      var tempkey = '';
+      // iterar sobre la lista de queries
+      snapshot.forEach(function(childSnap) {
+	// incrementar el indice o reiniciarlo
+	if (tempkey == childSnap.val()['SessionId']) {
+		i++;
+	} else {i = 1;}
+	// actualizar variable para sesion
+	tempkey = childSnap.val()['SessionId'];
+	// agregar indice a los datos
+	usersRef.child(childSnap.key).child('index').set(i);
+      });
+    });
+    
     if (this.sortBy) {
       return {
            users: usersRef.orderByChild(this.sortBy),
       }
     } else {
       return {
-         users: usersRef
+         users: users
       }
     }
   },
