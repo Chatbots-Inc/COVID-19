@@ -19,13 +19,13 @@ export default {
     return {
       users: [],
       json_fields: {
-	'SessionId': 'SessionId',
-	'Date': 'Date',
-	'Index': 'index',
-        'TextQuery': 'TextQuery',
-        'IntentName': 'IntentName',
-        'Confidence': 'Confidence',
-        'responseId': 'responseId',
+	'No. sesión': 'SessionId',
+	'Fecha': 'Date',
+	'Hora': 'Hour',
+	'No. interacción': 'index',
+        'Escrito usuario': 'TextQuery',
+        'Escrito agente': 'IntentName',
+        'Certidumbre': 'Confidence'
       },
     };
   },

@@ -2,7 +2,7 @@
   <div class="home">
     <b-button variant="outline-danger" @click="logout">Logout</b-button>
     <DownloadExcel class="download-sorted-excel" sortBy="SessionId" sortName="sesión"/>
-    <DownloadExcel class="download-sorted-excel" sortBy="Date" sortName="fecha"/>
+    <DownloadExcel class="download-sorted-excel" sortBy="Time" sortName="fecha"/>
     <UsersTable class="users-table"/>
   </div>
 
