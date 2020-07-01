@@ -15,26 +15,40 @@ export default {
     return {
       fields: [
         {
+          key: 'SessionId',
+          label: 'No. sesión',
+          sortable: true,
+        },
+        {
+          key: 'Date',
+          label: 'Fecha',
+          sortable: true,
+        },
+        {
+          key: 'Hour',
+          label: 'Hora',
+          sortable: false,
+        },
+        {
+          key: 'index',
+          label: 'No. interacción',
+          sortable: false,
+        },
+        {
           key: 'TextQuery',
-          label: 'TextQuery',
+          label: 'Escrito usuario',
           sortable: false,
         },
         {
           key: 'IntentName',
-          label: 'IntentName',
-          sortable: true,
+          label: 'Escrito agente',
+          sortable: false,
         },
         {
           key: 'Confidence',
-          label: 'Confidence',
+          label: 'Certidumbre',
           sortable: false,
         },
-        {
-          key: 'responseId',
-          label: 'responseId',
-          sortable: false,
-        },
-
       ],
     };
   },
