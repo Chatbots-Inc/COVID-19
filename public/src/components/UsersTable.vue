@@ -20,6 +20,11 @@ export default {
           sortable: true,
         },
         {
+          key: 'Name',
+          label: 'Nombre de usuario',
+          sortable: true,
+        },
+        {
           key: 'Date',
           label: 'Fecha',
           sortable: true,

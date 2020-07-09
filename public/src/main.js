@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import VueJsonToCsv from 'vue-json-to-csv';
 import BootstrapVue from 'bootstrap-vue';
 import JsonExcel from 'vue-json-excel';
+import Datepicker from 'vuejs-datepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -24,6 +25,7 @@ library.add(faCheck);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('downloadExcel', JsonExcel);
+Vue.component('Datepicker', Datepicker);
 
 Vue.use(BootstrapVue);
 Vue.use(VueJsonToCsv);
