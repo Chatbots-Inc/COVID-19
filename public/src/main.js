@@ -1,23 +1,23 @@
-import './firebase';
-import Vue from 'vue';
-import VueFire from 'vuefire';
+import './firebase'
+import Vue from 'vue'
+import VueFire from 'vuefire'
 
-import firebase from 'firebase';
-import VueJsonToCsv from 'vue-json-to-csv';
-import BootstrapVue from 'bootstrap-vue';
-import JsonExcel from 'vue-json-excel';
-import Datepicker from 'vuejs-datepicker';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import firebase from 'firebase'
+import VueJsonToCsv from 'vue-json-to-csv'
+import BootstrapVue from 'bootstrap-vue'
+import JsonExcel from 'vue-json-excel'
+import Datepicker from 'vuejs-datepicker'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library } from '@fortawesome/fontawesome-svg-core'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import router from './router';
-import App from './App.vue';
+import router from './router'
+import App from './App.vue'
 
 Vue.config.productionTip = false;
 

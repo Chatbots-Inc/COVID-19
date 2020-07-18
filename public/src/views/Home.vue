@@ -6,7 +6,7 @@
     <DownloadExcel class="download-sorted-excel" sortBy="SessionId" sortName="sesión"/>
     <DownloadExcel class="download-sorted-excel" sortBy="Name" sortName="nombre" nameList="Dr PhD Jose Luis Gonzalez"/>
     <DownloadExcel class="download-sorted-excel" sortBy="Time" sortName="fecha" startTime="1593900773580" endTime="1594069811832"/> -->
-    <DownloadDialog></DownloadDialog>
+    <br><DownloadDialog></DownloadDialog>
     <UsersTable class="users-table"/>
   </div>
 
@@ -38,15 +38,9 @@ export default {
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
-  .my-logout-button {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top:10px;
-    padding-bottom:10px;
-  }
 
-  .users-table {
-    margin-top: 35px;
+  .home > * + * {
+    margin-top: 30px;
   }
 
 </style>
