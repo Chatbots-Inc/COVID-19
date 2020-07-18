@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     fetchData: function () {
-      return getFilteredData(this.sortBy, [this.startTime.getTime(), this.endTime.getTime()])
+      return getFilteredData(this.sortBy, this.startTime.getTime(), this.endTime.getTime(), this.nameList)
     }
   },
 };

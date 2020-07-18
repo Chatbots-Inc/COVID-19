@@ -15,7 +15,43 @@ const app = initializeApp({
 export const db = app.database();
 export const usersRef = db.ref('analytics_ref');
 
-// función para obtener una lista con los datos de un query
+// wrapper para obtener los datos de un intervalo de tiempo
+function getRangeData(start, stop, sortBy = 'Time') {
+  return getArrayFromQuery(usersRef.orderByChild(sortBy).startAt(start).endAt(stop));
+}
+
+// función para obtener una lista con los valores de un child
+// (por ejemplo. una lista con todos los nombres de usuario)
+export function getChildValues(childName) {
+  var data = [];
+  var prevChildValue;
+  usersRef.orderByChild(childName).on("child_added", function(snapshot) {
+    var childValue = snapshot.val()[childName];
+    if (!(childValue == prevChildValue)) {
+      data.push(childValue);
+      prevChildValue = childValue;
+    }
+  });
+  console.log(data);
+  return data
+}
+
+// wrapper para obtener todos los datos de una lista de valores
+// (por ejemplo, todas las interacciones de ciertos usuarios)
+function getChildrenFromValues(childName, values) {
+  var children = [];
+  console.log('childname: ' + childName + ' values: ' + values);
+  values.forEach(function(value) {
+    var matches = usersRef.orderByChild(childName).equalTo(value);
+    matches = getArrayFromQuery(matches);
+    console.log(matches);
+    children = children.concat(matches);
+  });
+  console.log(children);
+  return children;
+}
+
+// función para obtener una lista con los datos de uno o más queries
 function getArrayFromQuery(query) {
   var data;
   // obtiene objeto con los datos del query
@@ -29,32 +65,23 @@ function getArrayFromQuery(query) {
   return data
 }
 
-// función para obtener los datos de un intervalo de tiempo
-function getRangeData(start, stop, sortBy = 'Time') {
-  console.log('start: ' + start + ' stop: ' + stop);
-  var data = usersRef.orderByChild(sortBy).startAt(start).endAt(stop);
-  return data
-}
-
 // función para obtener los datos según distintos filtros
-export function getFilteredData(sortBy, args) {
-  var data = usersRef;
+export function getFilteredData(sortBy, startTime, stopTime, nameList) {
+  var data = getArrayFromQuery(usersRef);
   // filtro por tiempo
   if (sortBy == 'Time') {
-    console.log('time filter');
     // args tiene el principio y el final
-    data = getRangeData(args[0], args[1]);
+    data = getRangeData(startTime, stopTime);
   // filtro por nombre de usuario
   } else if (sortBy == 'Name') {
-    // TODO: cambiar para que sí sea un filtro
     console.log('name filter');
+    data = getChildrenFromValues(sortBy, nameList);
   }
-
-  // obtener lista de datos a partir del query
-  return getArrayFromQuery(data); 
+  // si no hay filtros se queda igual
+  return data; 
 }
 
-// nombres de los datos de la base de datos para exportar
+// nombres de los campos de la base de datos para exportar
 export const exportFields = {
   'No. sesión': 'SessionId',
   'Nombre de usuario': 'Name',

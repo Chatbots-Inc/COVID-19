@@ -30,8 +30,12 @@
 		<input type="radio" v-model="sortBy" value="Name">
 		<label class="label-class" for="usuario">usuario</label>
 	</div>
+	<div class="username-selection">
+		Seleccionar usuarios.
+		<CheckboxContainer @checkbox-change="changeNameList" class="scroll-container" childName="Name"></CheckboxContainer>		
+	</div>
 	<br>
-	<DownloadExcel class="download-sorted-excel" :sortBy="sortBy" :startTime="startTime" :endTime="endTime"/>
+	<DownloadExcel class="download-sorted-excel" :sortBy="sortBy" :startTime="startTime" :endTime="endTime" :nameList="nameList"/>
     </div>
 </template>
 
@@ -39,18 +43,20 @@
 import firebase from 'firebase';
 // @ is an alias to /src
 import DownloadExcel from '@/components/DownloadExcel.vue';
+import CheckboxContainer from '@/components/CheckboxContainer.vue';
 
 export default {
   name: 'DownloadDialog',
   components: {
     DownloadExcel,
+    CheckboxContainer,
   },
   data () {
     return {
       startTime: new Date(0),
       endTime: new Date(),
+      nameList: [],
       sortBy: '',
-      sortString: '',
     }
   },
   methods: {
@@ -59,7 +65,10 @@ export default {
     },
     changeEndTime (endTime) {
       this.endTime = endTime;
-    }
+    },
+    changeNameList (nameList) {
+      this.nameList = nameList;
+    },
   },
 }
 
@@ -107,6 +116,21 @@ export default {
 
   .inner-date > div {
     margin: 10px;
+  }
+
+  .username-selection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .scroll-container {
+    max-height: 200px;
+    overflow: auto;
   }
 
   .dp-class {
