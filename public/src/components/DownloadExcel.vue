@@ -1,5 +1,5 @@
 <template>
-    <div class="download-sorted-excel">
+    <div>
         <download-excel
 	    :fetch  = "fetchData"
             :fields = "jsonFields"
@@ -28,8 +28,5 @@ export default {
 
 </script>
 
-<style scoped>  /* "scoped" attribute limit the CSS to this component only */
-  .download-excel {
-    margin-top: 30px;
-  }
+<style scoped>
 </style>
