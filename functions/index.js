@@ -93,6 +93,23 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
     return true;
   }
 
+  // Función para obtener el índice (número de interacción en esa sesión) del query
+  function getIndex(id) {
+    var index = 1;
+    // Obtiene una referencia de la base de datos (parecido a una copia local)
+    var dataRef = admin.database().ref('analytics_ref');
+    // Ordena los datos por sesión y busca el último que tenga la misma sesión que este query
+    var i = dataRef.orderByChild('SessionId').equalTo(id).limitToLast(1)
+      .once("child_added").then(function(snap) {
+        index += snap.val().Index;
+	console.log('indice adentro: ' + index);
+        return index
+      });
+    console.log('indice afuera: ' + index);
+    console.log(i);
+    return index
+  } 
+
   // Si request.body.originalDetectIntentRequest.payload viene vacío, este mensaje viene directo de Dialogflow
   // Si no viene vacío, este mensaje viene de Telegram.
   if (isEmpty(request.body.originalDetectIntentRequest.payload) === false) {
@@ -103,9 +120,9 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
     var lg = JSON.stringify(request.body.originalDetectIntentRequest.payload.data.from.last_name);  // Apellido
     lg = lg.substring(1,lg.length-1);
   } else {
-    var g = 'Dialogflow';                 // Fuente
-    var fg = 'No name';                   // Nombre
-    var lg = '';                          // Apellido
+    g = 'Dialogflow';                 // Fuente
+    fg = 'No name';                   // Nombre
+    lg = '';                          // Apellido
   }
 
   var gg = fg + String(' ') + lg;         // Nombre y Apellido
@@ -122,6 +139,9 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
   var F = DD + "/" + MM + "/" + YY;                                           // Fecha
   var TT = f.getTime();                                                       // Milisegundos desde 1/1/1970
 
+  // Obtiene el índice
+  var i = getIndex(e);
+
 ///////////////////////////////////////////////Tercera Parte///////////////////////////////////////////////////////
   // Se guardan todos los datos en la colección "analytics_ref". Se guardan en orden alfabético. El nombre es lo 
   // que está del lado izquierdo y el contenido del lado derecho de ":".
@@ -135,6 +155,7 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
     Source: g,
     Name: gg,
     Date: F,
-    Time: TT
+    Time: TT,
+    Index: i
   })
 })
