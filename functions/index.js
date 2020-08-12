@@ -12,7 +12,7 @@ const {WebhookClient} = require('dialogflow-fulfillment');
 const admin = require('firebase-admin');
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
-  databaseURL: 'ws://covid-19-bjmcqv.firebaseio.com/'
+  databaseURL: 'https://covid-19-bjmcqv.firebaseio.com/'
 })
 
 exports.covidBotTam = functions.https.onRequest((request, response) => {
