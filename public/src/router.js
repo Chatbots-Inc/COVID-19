@@ -25,11 +25,17 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+      meta: {
+        title: 'Login',
+      }
     },
     {
       path: '/sign-up',
       name: 'SignUp',
       component: SignUp,
+      meta: {
+        title: 'Sign Up',
+      }
     },
     {
       path: '/home',
@@ -37,6 +43,7 @@ const router = new Router({
       component: Home,
       meta: {
         requiresAuth: true,
+        title: 'Home',
       },
     },
   ],
@@ -45,6 +52,8 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const { currentUser } = firebase.auth();
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  document.title = to.meta.title + ' | Chatbot' || 'Chatbot';
 
   if (requiresAuth && !currentUser) next('login');
   else if (!requiresAuth && currentUser) next('home');
