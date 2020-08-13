@@ -85,3 +85,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# Build directory for website
+public/dist/*
