@@ -1,8 +1,10 @@
-// Este código guarda datos en la base de datos realtime firebase. La primera parte son requerimientos de Google
-// para acceder a la base de datos, la segunda parte son los datos siendo tomados y estilizados un poco. La tercera
+// Este código guarda datos en la base de datos realtime firebase.
+// La primera parte son requerimientos de Google,
+// para acceder a la base de datos, la segunda parte son los datos
+// siendo tomados y estilizados un poco. La tercera
 // parte es donde se guardan.
 
-// /////////////////////////////////////////////Primera Parte///////////////////////////////////////////////////////
+// Primera Parte
 "use strict";
 const DialogflowApp = require("actions-on-google").DialogflowApp;
 const functions = require("firebase-functions");
@@ -21,12 +23,14 @@ exports.covidBotTam = functions.https.onRequest((request, response) => {
     processV2Request(request, response);
   } else {
     console.log("Invalid Request");
-    return response.status(400).end("Invalid Webhook Request (expecting v1 or v2 webhook request)");
+    return response.status(400).end("Invalid Webhook Request" +
+       " (expecting v1 or v2 webhook request)");
   }
 });
 
 function processV2Request(request, response) {
-  let action = (request.body.queryResult.action) ? request.body.queryResult.action : "default";
+  let action = (request.body.queryResult.action) ?
+    request.body.queryResult.action : "default";
   const actionHandlers = {
     "default": () => {
       sendResponse("Default Response");
@@ -58,19 +62,28 @@ function processV2Request(request, response) {
   }
 }
 
-// /////////////////////////////////////////////Segunda Parte///////////////////////////////////////////////////////
-// Primero tomamos el request, de este objeto JSON salen casi todos los datos. Para visualizarlo mejor, puedes ir a
-// la consola de Firebase, en la sección de Functions, registros y ahí se visualiza lo que se escribe en la consola.
+// Segunda Parte
+// Primero tomamos el request, de este objeto JSON salen casi todos los datos.
+// Para visualizarlo mejor, puedes ir a
+// la consola de Firebase, en la sección de Functions,
+// registros y ahí se visualiza lo que se escribe en la consola.
 exports.CovidToFirebase = functions.https.onRequest((request, response) => {
-  console.log("Request headers: " + JSON.stringify(request.headers)); // Escribe en la consola los datos que
-  console.log("Request body: " + JSON.stringify(request.body)); // Vamos a extraer
+  // Escribe en la consola los datos que
+  console.log("Request headers: " + JSON.stringify(request.headers));
+  // Vamos a extraer
+  console.log("Request body: " + JSON.stringify(request.body));
 
   // Estos son los datos que salen directamente de Dialogflow.
-  let a = JSON.stringify(request.body.responseId); // Id de respuesta
-  let b = JSON.stringify(request.body.queryResult.intent.displayName); // Intent
-  let c = JSON.stringify(request.body.queryResult.queryText); // Solicitud del usuario
-  const d = JSON.stringify(request.body.queryResult.intentDetectionConfidence);	// Parámetro de confianza
-  let e = JSON.stringify(request.body.session); // Id de la sesion
+  // Id de respuesta
+  let a = JSON.stringify(request.body.responseId);
+  // Intent
+  let b = JSON.stringify(request.body.queryResult.intent.displayName);
+  // Solicitud del usuario
+  let c = JSON.stringify(request.body.queryResult.queryText);
+  // Parámetro de confianza
+  const d = JSON.stringify(request.body.queryResult.intentDetectionConfidence);
+  // Id de la sesion
+  let e = JSON.stringify(request.body.session);
 
   // Limpiamos la primera parte de los datos.
   a = a.substring(1);
@@ -94,12 +107,14 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
     return true;
   }
 
-  // Función para obtener el índice (número de interacción en esa sesión) del query
+  // Función para obtener el índice (número de interacción
+  // en esa sesión) del query
   function getIndex(id) {
     let index = 1;
     // Obtiene una referencia de la base de datos (parecido a una copia local)
     const dataRef = admin.database().ref("analytics_ref");
-    // Ordena los datos por sesión y busca el último que tenga la misma sesión que este query
+    // Ordena los datos por sesión y busca el último que
+    // tenga la misma sesión que este query
     const i = dataRef.orderByChild("SessionId").equalTo(id).limitToLast(1)
         .once("child_added").then(function(snap) {
           index += snap.val().Index;
@@ -111,14 +126,20 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
     return index;
   }
 
-  // Si request.body.originalDetectIntentRequest.payload viene vacío, este mensaje viene directo de Dialogflow
+  // Si request.body.originalDetectIntentRequest.payload viene vacío,
+  // este mensaje viene directo de Dialogflow
   // Si no viene vacío, este mensaje viene de Telegram.
   if (isEmpty(request.body.originalDetectIntentRequest.payload) === false) {
-    var g = JSON.stringify(request.body.originalDetectIntentRequest.source); // Fuente
+    var g = JSON.stringify(
+        request.body.originalDetectIntentRequest.source); // Fuente
     g = g.substring(1, g.length-1);
-    var fg = JSON.stringify(request.body.originalDetectIntentRequest.payload.data.from.first_name); // Nombre
+    var fg = JSON.stringify(
+        request.body.originalDetectIntentRequest
+            .payload.data.from.first_name); // Nombre
     fg = fg.substring(1, fg.length-1);
-    var lg = JSON.stringify(request.body.originalDetectIntentRequest.payload.data.from.last_name); // Apellido
+    var lg = JSON.stringify(
+        request.body.originalDetectIntentRequest
+            .payload.data.from.last_name); // Apellido
     lg = lg.substring(1, lg.length-1);
   } else {
     g = "Dialogflow"; // Fuente
@@ -130,7 +151,10 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
 
   // Para la fecha y hora se utiliza la función Date().
   const f = new Date(); // Tiempo
-  const H = f.toLocaleTimeString("de-DE", {hour: "2-digit", hour12: false, timeZone: "America/Mexico_City"}); // Hora local
+  const H = f.toLocaleTimeString("de-DE",
+      {hour: "2-digit",
+        hour12: false,
+        timeZone: "America/Mexico_City"}); // Hora local
   const M = f.getMinutes(); // Minutos
   const S = f.getSeconds(); // Segundos
   const DD = f.getDate(); // Dia
@@ -143,8 +167,9 @@ exports.CovidToFirebase = functions.https.onRequest((request, response) => {
   // Obtiene el índice
   const i = getIndex(e);
 
-  // /////////////////////////////////////////////Tercera Parte///////////////////////////////////////////////////////
-  // Se guardan todos los datos en la colección "analytics_ref". Se guardan en orden alfabético. El nombre es lo
+  // Tercera Parte
+  // Se guardan todos los datos en la colección "analytics_ref".
+  // Se guardan en orden alfabético. El nombre es lo
   // que está del lado izquierdo y el contenido del lado derecho de ":".
   return admin.database().ref("analytics_ref").push({
     IntentName: b,
